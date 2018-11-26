@@ -61,3 +61,14 @@ Security Issues: If you find an authorization bypass or data breach, please cont
 
 You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
 [Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494) or [Github](https://github.com/Growstuff/growstuff/issues)..
+
+ONLY FOR INDIVIDUAL PROJECT REMOVE BEFORE PULL REQUEST
+This addition has added expanded search functionality to growstuff allowing for searching of alternate names, scientific names or misspelling of main names
+
+Extra work may be done to allow for misspellings of alternate names or scientific names but as of right now that functionality is missing.
+
+installation is a little buggy on the vms follow this installation guide
+https://drive.google.com/file/d/0B-ZK559BOnC1SGtCMmRGc01lVTFUcVY0cDZnaXUySEl3OE1F/view?usp=sharing
+
+once installed use this command to start the server (replace ip address with your own)
+rails server --binding=10.18.8.121 >rlogs 2>&1 &
