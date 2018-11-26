@@ -7,7 +7,7 @@
 #	      search function to allow for
 #	      secondary names and misspelled
 #	      ones
-#Last modified: 10/26/2018
+#Last modified: 11/26/2018
 require "MisspelledSearch.rb"
 #-------------------------------------------------------
 #
