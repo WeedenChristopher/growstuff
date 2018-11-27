@@ -86,6 +86,7 @@ def computeEditDistances(name, query)
 	#
 	# basic error handling for empty terms
 	if name.empty? || query.empty?
+		# garbage value to never get used
 		return 10000
 	end
 	distance_array = Array.new(name.length+1, Array.new(query.length+1))
@@ -102,6 +103,8 @@ def computeEditDistances(name, query)
 	for i in 1..name.length
 		for j in 1..query.length
 			if(name[i-1]==query[j-1])
+				# we put much more emphisis on matching letters since
+				# some of the full name may be ommited
 				cost=-10
 			else
 				cost=1
@@ -130,9 +133,7 @@ def fillBestFitNames(crop_obj, query)
 	edit_dist = Array.new(10,10000)	
 	crop_obj.each { |x|
 		dist = computeEditDistances(x.name, query)
-		puts "#{dist}"
 		index = 0;
-		puts"#{index}"
 		# finds where the edit distance should be in an array
 		while index <= 10
 			if index != 10 && dist < edit_dist[index]
@@ -152,13 +153,11 @@ def fillBestFitNames(crop_obj, query)
 		# index 9 or that it is a smaller distance than index 9
 	}
 	# make sure ruby returns correct object
-	puts"here!!!!!!!!!!!!!!!!"
-	puts"#{edit_dist}"
-	puts"#{best_fit_crops}"
 	best_fit_crops
 end
 
 class CropSearchService
+  # part of original code
   # Crop.search(string)
   def self.search(query)
     if ENV['GROWSTUFF_ELASTICSEARCH'] == "true"
@@ -190,22 +189,20 @@ class CropSearchService
       # we want to make sure that exact matches come first, even if not
       # using elasticsearch (eg. in development)
       exact_match = Crop.approved.find_by(name: query)
-      puts "#{matches}"
-      puts "#{exact_match}"
       if exact_match
         matches.delete(exact_match)
         matches.unshift(exact_match)
       end
       # start of my changes
-      if matches.empty? # these computations become increasingly more expensive as they go on
-			# so they are separated out to same computation time
-	matches = alt_names_search(query).clone
-        if matches.empty?
-	  full_list = Crop.approved.to_a.clone
-	  matches = fillBestFitNames(full_list, query)
-	end
+      # merge alt names with matched main name
+      # this is a quick operation so we do it at all times
+      full_matches = matches | alt_names_search(query)
+      if full_matches.empty?
+	# much more computationally expensive do sparringly
+	full_list = Crop.approved.to_a.clone
+	full_matches = fillBestFitNames(full_list, query)
       end
-      matches
+      full_matches
     end
   end
 end
