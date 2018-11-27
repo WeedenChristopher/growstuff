@@ -8,7 +8,6 @@
 #	      secondary names and misspelled
 #	      ones
 #Last modified: 11/26/2018
-require "MisspelledSearch.rb"
 #-------------------------------------------------------
 #
 #Function: alt_name_search()
