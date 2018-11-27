@@ -184,6 +184,11 @@ class CropSearchService
       # collection, so it matches what we get from elasticsearch and we can
       # manipulate it in the same ways (eg. deleting elements without deleting
       # the whole record from the db)
+	    
+      # one line of mine to sanitize input 
+      query = query.gsub(/[^a-z ]/i, "")
+      # my code end
+
       matches = Crop.approved.where("name ILIKE ?", "%#{query}%").to_a
       
       # we want to make sure that exact matches come first, even if not
