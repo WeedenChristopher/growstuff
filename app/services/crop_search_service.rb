@@ -29,7 +29,7 @@ def alt_names_search(query)
     sci_matches.delete(alt_exact_match)
     sci_matches.unshift(sci_exact_match)
     sci_matches.unshift(alt_exact_match)
-    sci_matches.compact
+    sci_matches.compact!
   end
   sci_matches
 end
